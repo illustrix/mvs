@@ -36,13 +36,3 @@ func getRelatedCells(b Board, offsets []Vec2, pos Vec2) []*Cell {
 	}
 	return cells
 }
-
-type BoolMap [][]bool
-
-func NewBoolMap(width, height int) BoolMap {
-	m := make(BoolMap, width)
-	for x := range m {
-		m[x] = make([]bool, height)
-	}
-	return m
-}

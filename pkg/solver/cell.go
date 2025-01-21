@@ -17,22 +17,20 @@ type Cell struct {
 
 type CellCreator struct{}
 
-func NewCellCreator() *CellCreator {
-	return &CellCreator{}
-}
-
-func (c *CellCreator) M() *Cell {
+func (c *CellCreator) Mine() *Cell {
 	return &Cell{Type: CellType_Mine}
 }
 
-func (c *CellCreator) I(num int) *Cell {
+func (c *CellCreator) Int(num int) *Cell {
 	return &Cell{Type: CellType_Num, Num: []int{num}}
 }
 
-func (c *CellCreator) O() *Cell {
+func (c *CellCreator) Empty() *Cell {
 	return &Cell{Type: CellType_Empty}
 }
 
-func (c *CellCreator) U() *Cell {
+func (c *CellCreator) Unknown() *Cell {
 	return &Cell{Type: CellType_Unknown}
 }
+
+var cc = &CellCreator{}

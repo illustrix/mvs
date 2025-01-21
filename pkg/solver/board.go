@@ -51,18 +51,17 @@ func FormatBoardString(m string) string {
 func NewBoardFromString(m string) Board {
 	lines := trimBoardString(m)
 	b := NewBoard(len(lines[0]), len(lines))
-	cc := NewCellCreator()
 	for y, line := range lines {
 		for x, c := range line {
 			switch c {
 			case 'o':
-				b[x][y] = cc.O()
+				b[x][y] = cc.Empty()
 			case 'x':
-				b[x][y] = cc.M()
+				b[x][y] = cc.Mine()
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
-				b[x][y] = cc.I(int(c - '0'))
+				b[x][y] = cc.Int(int(c - '0'))
 			default:
-				b[x][y] = cc.U()
+				b[x][y] = cc.Unknown()
 			}
 			b[x][y].Pos = Vec2{x, y}
 		}
@@ -90,4 +89,16 @@ func (b Board) String() string {
 		}
 	}
 	return sb.String()
+}
+
+func (b Board) Clone() Board {
+	board := make(Board, len(b))
+	for x := range board {
+		col := make(Col, len(b[x]))
+		board[x] = col
+		for y := range board[x] {
+			board[x][y] = b[x][y]
+		}
+	}
+	return board
 }
