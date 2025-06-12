@@ -1,6 +1,7 @@
 package solver
 
 type Negation struct {
+	BaseRule
 }
 
 var _ Rule = &Negation{}

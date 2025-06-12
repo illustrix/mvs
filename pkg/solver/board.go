@@ -81,7 +81,7 @@ func (b Board) String() string {
 			case CellType_Num:
 				sb.WriteByte(byte('0' + b[x][y].Num[0]))
 			default:
-				sb.WriteByte('?')
+				sb.WriteByte(' ')
 			}
 		}
 		if y < len(b[0])-1 {

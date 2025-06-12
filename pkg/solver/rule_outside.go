@@ -1,6 +1,8 @@
 package solver
 
 type Outside struct {
+	BaseRule
+
 	board     Board
 	traveled  BoolMap
 	hasWayOut BoolMap

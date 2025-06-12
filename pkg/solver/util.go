@@ -24,6 +24,16 @@ var (
 		{0, 1},
 		{1, 0},
 	}
+	Cross8 = []Vec2{
+		{0, -1},
+		{0, -2},
+		{0, 1},
+		{0, 2},
+		{-1, 0},
+		{-2, 0},
+		{1, 0},
+		{2, 0},
+	}
 )
 
 func getRelatedCells(b Board, offsets []Vec2, pos Vec2) []*Cell {
