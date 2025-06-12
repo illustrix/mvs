@@ -71,8 +71,8 @@ func NewBoardFromString(m string) Board {
 
 func (b Board) String() string {
 	var sb strings.Builder
-	for y := 0; y < len(b[0]); y++ {
-		for x := 0; x < len(b); x++ {
+	for y := range b[0] {
+		for x := range b {
 			switch b[x][y].Type {
 			case CellType_Empty:
 				sb.WriteByte('o')

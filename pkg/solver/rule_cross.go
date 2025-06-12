@@ -1,5 +1,7 @@
 package solver
 
+import "fmt"
+
 type Cross struct {
 	BaseRule
 }
@@ -51,7 +53,9 @@ func (r *Cross) preCheckNonMine(b Board, pos Vec2) bool {
 		if cell.Type != CellType_Num {
 			continue
 		}
-		if r.getScopeUnknownCount(b, cell.Pos) < cell.Num[0]-r.getScopeMineCount(b, cell.Pos) {
+		unknownCount := r.getScopeUnknownCount(b, cell.Pos)
+		mineCount := r.getScopeMineCount(b, cell.Pos)
+		if unknownCount < cell.Num[0]-mineCount {
 			return false
 		}
 	}
@@ -125,7 +129,8 @@ func (r *Cross) GetHintPoints(b Board) []Vec2 {
 	}
 	hintPoints := make([]Vec2, 0)
 	for pos, count := range points {
-		if count > 1 {
+		fmt.Printf("Cross hint point: %s, count: %d, %v\n", pos, count, pointsMap[pos])
+		if count > 0 {
 			hintPoints = append(hintPoints, pointsMap[pos])
 		}
 	}
