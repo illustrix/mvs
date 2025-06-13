@@ -6,23 +6,23 @@ import (
 )
 
 func TestTravelAllCases(t *testing.T) {
-	// b0 := NewBoardFromString(`
-	// 	_x______
-	// 	x4ox____
-	// 	x4ox____
-	// 	_x__4___
-	// 	x332____
-	// 	__214___
-	// 	_______2
-	// 	________
-	// `)
 	b0 := NewBoardFromString(`
-		_____
-		_4o__
-		_4o__
-		_____
-		_____
+		_x______
+		x4ox____
+		x4ox____
+		_x__4___
+		x332____
+		__214___
+		_______2
+		________
 	`)
+	// b0 := NewBoardFromString(`
+	// 	_____
+	// 	_4o__
+	// 	_4o__
+	// 	_____
+	// 	_____
+	// `)
 	rule := &Cross{}
 	s0 := &Solver{
 		rules: []Rule{rule},
@@ -35,11 +35,11 @@ func TestTravelAllCases(t *testing.T) {
 	// for _, pos := range hints {
 	// 	pointsCases[pos.String()] = []int{0, 0} // [mines, non-mines]
 	// }
-	// pos, r := s0.testEachCell(b0, hints)
-	pos := Vec2{0, 1}                                              // Example position to test
-	hints = []Vec2{{1, 4}, {0, 2}, {3, 2}, {1, 0}, {1, 3}, {3, 1}} // Example hints
-	r := s0.test(b0, pos, hints)
-	fmt.Printf("Test each cell result: %v, %+v\n", pos, r)
+	pos, r := s0.testEachCell(b0, hints)
+	// pos := Vec2{0, 1}                                              // Example position to test
+	// hints = []Vec2{{1, 4}, {0, 2}, {3, 2}, {1, 0}, {1, 3}, {3, 1}} // Example hints
+	// r := s0.test(b0, pos, hints)
+	fmt.Printf("Test each cell result: %v, %s\n", pos, r)
 	// s0.travelAllCases(b0, hints, rule, func(board Board) (fastStop bool) {
 	// 	c += 1
 	// 	if c%1000 == 0 {

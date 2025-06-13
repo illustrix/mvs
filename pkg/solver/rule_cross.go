@@ -1,7 +1,5 @@
 package solver
 
-import "fmt"
-
 type Cross struct {
 	BaseRule
 }
@@ -129,7 +127,6 @@ func (r *Cross) GetHintPoints(b Board) []Vec2 {
 	}
 	hintPoints := make([]Vec2, 0)
 	for pos, count := range points {
-		fmt.Printf("Cross hint point: %s, count: %d, %v\n", pos, count, pointsMap[pos])
 		if count > 0 {
 			hintPoints = append(hintPoints, pointsMap[pos])
 		}

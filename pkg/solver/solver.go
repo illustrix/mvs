@@ -12,6 +12,15 @@ type Result struct {
 	Confirmed bool
 }
 
+var _ fmt.Stringer = &Result{}
+
+func (r *Result) String() string {
+	if r.Confirmed {
+		return fmt.Sprintf("Confirmed: %s", string(r.Target))
+	}
+	return fmt.Sprintf("Unconfirmed: %s", string(r.Target))
+}
+
 type TravelState struct {
 	ShouldStop bool
 }
@@ -68,23 +77,33 @@ func (s *Solver) test(board Board, pos Vec2, hints []Vec2) *Result {
 	x, y := pos[0], pos[1]
 	cell := board[x][y]
 
+	rule := s.rules[0]
 	canBeEmpty := false
 	board[x][y] = cc.Empty()
-	s.travelAllCases(board, hints, s.rules[0], func(b Board) (fastStop bool) {
-		canBeEmpty = true
-		fmt.Printf("Cell %v can be empty, board:\n%s\n", pos, b.String())
-		return true
-	})
+	if rule.CanPreCheck() {
+		if rule.PreCheck(board, pos) {
+			s.travelAllCases(board, hints, rule, func(b Board) (fastStop bool) {
+				canBeEmpty = true
+				// fmt.Printf("Cell %v can be empty, board:\n%s\n", pos, b.String())
+				return true
+			})
+		}
+	}
 
 	canBeMine := false
 	board[x][y] = cc.Mine()
-	s.travelAllCases(board, hints, s.rules[0], func(b Board) (fastStop bool) {
-		canBeMine = true
-		return true
-	})
+
+	if rule.CanPreCheck() {
+		if rule.PreCheck(board, pos) {
+			s.travelAllCases(board, hints, rule, func(b Board) (fastStop bool) {
+				canBeMine = true
+				return true
+			})
+		}
+	}
 	board[x][y] = cell
 	if canBeEmpty && canBeMine {
-		fmt.Printf("Warning: cell %v can be both empty and mine, this is unexpected behavior.\n", pos)
+		// fmt.Printf("Warning: cell %v can be both empty and mine, this is unexpected behavior.\n", pos)
 		return nil
 	}
 	if canBeEmpty {
@@ -106,7 +125,7 @@ func (s *Solver) testEachCell(board Board, hints []Vec2) (Vec2, *Result) {
 		if i < len(hints)-1 {
 			copy(newHints[i:], hints[i+1:])
 		}
-		fmt.Printf("Testing cell %v, remaining hints: %v\n", pos, newHints)
+		// fmt.Printf("Testing cell %v, remaining hints: %v\n", pos, newHints)
 		result := s.test(board, pos, newHints)
 		if result != nil {
 			return pos, result
